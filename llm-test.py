@@ -1,18 +1,5 @@
-import os
-from langchain import PromptTemplate, OpenAI, LLMChain
+from langchain import LLMMathChain, OpenAI, SerpAPIWrapper
+from langchain.agents import initialize_agent, Tool
+from langchain.chat_models import ChatOpenAI
+from contants import open_ai_key, serp_api_key
 import chainlit as cl
-from contants import open_ai_key
-
-os.environ['OPEN_AI_KEY'] = open_ai_key
-
-template = """ Question: {question}
-
-Answer: Let's think about it on a colos level...
-"""
-
-@cl.langchain_factory(use_async=True)
-def factory():
-    prompt = PromptTemplate(template=template, input_variables=['question'])
-    llm_chain = LLMChain(prompt=prompt, llm=OpenAI(temperature=0), verbose=True)
-
-    return llm_chain
